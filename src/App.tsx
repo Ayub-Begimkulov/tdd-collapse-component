@@ -1,24 +1,77 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { Collapse, CollapseItem } from './Collapse';
+
+const contentStyles = {
+  height: 300,
+
+  background: 'lightgrey',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const headerStyles = {
+  border: '1px solid lightgrey',
+  padding: 8,
+  cursor: 'pointer',
+};
 
 function App() {
+  const [openedItems, setOpenedItems] = useState<string[]>([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Hello world</h1>
+
+      <Collapse
+        openedItems={openedItems}
+        onChange={setOpenedItems}
+        mode="accordion"
+      >
+        <CollapseItem name="first">
+          {({ headerProps, contentVisible }) => (
+            <div>
+              <div
+                {...headerProps}
+                style={{
+                  ...headerStyles,
+                  borderBottom: 'none',
+                }}
+              >
+                First collapse item
+              </div>
+              {contentVisible && <div style={contentStyles}>1</div>}
+            </div>
+          )}
+        </CollapseItem>
+
+        <CollapseItem name="second">
+          {({ headerProps, contentVisible }) => (
+            <div>
+              <div {...headerProps} style={headerStyles}>
+                Second collapse item
+              </div>
+              {contentVisible && <div style={contentStyles}>2</div>}
+            </div>
+          )}
+        </CollapseItem>
+
+        <CollapseItem name="third">
+          {({ headerProps, contentVisible }) => (
+            <div>
+              <div
+                {...headerProps}
+                style={{
+                  ...headerStyles,
+                  borderTop: 'none',
+                }}
+              >
+                Third collapse item
+              </div>
+              {contentVisible && <div style={contentStyles}>3</div>}
+            </div>
+          )}
+        </CollapseItem>
+      </Collapse>
     </div>
   );
 }
